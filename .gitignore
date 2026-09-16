@@ -1,0 +1,16 @@
+# Third-party material (copyrighted books, standards, articles and course files; some exceed GitHub's 100 MB limit)
+03_Course_Guides_and_References/
+04_State_of_the_Art/
+
+# Local housekeeping
+_duplicates/
+_to_delete/
+ANTEPROYECTO/
+reorganization_log.txt
+
+# Office / OS temp files
+~$*
+*.tmp
+Thumbs.db
+desktop.ini
+.DS_Store
