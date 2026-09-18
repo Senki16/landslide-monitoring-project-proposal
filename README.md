@@ -26,10 +26,9 @@ The proposal combines remote sensing, satellite rainfall data and deep-learning 
 
 ```
 01_Final_Report/
-├── Final_Report_G5_Corrected.pdf     ← final corrected report (read this one)
+├── Final_Report_G5_Corrected.pdf     ← final corrected report
 ├── Final_Report_G5_Corrected.docx    ← editable version
 ├── Grading_Rubric_G5.pdf             ← instructor rubric used for the corrections
-└── Original/                         ← report as originally submitted (A12 / A13)
 02_Progress_Deliverables/
 ├── A01_Technical_System/             ← technical system and title selection
 ├── A02_Proposal_Summary_Background/
