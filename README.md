@@ -61,16 +61,12 @@ The proposal combines remote sensing, satellite rainfall data and deep-learning 
 12. Financial evaluation — income, benefits, investment and O&M at economic prices, net cash flow, NPV / IRR / B-C, sensitivity analysis
 13. Conclusions and APA references
 
-## Corrected version
-
-`Final_Report_G5_Corrected` applies the instructor's rubric feedback to the originally submitted report: consistent project data, full policy alignment, causes/effects table, state-of-the-art tables, recalculated selection matrix, rebuilt WBS and Gantt, budget funding sources that add up, and a complete financial evaluation. It also has a new layout with a table of contents, lists of tables and figures, and consistent table styling.
-
 ## Note on references
 
 Books, standards, journal articles and course guides used during the research are **not included** in this repository because they are copyrighted by third parties. Full citations are listed in the report's reference section.
 
 ## Team
 
-David Amell Osorio · Kevin Giraldo Pérez · Juan José González Guzmán · Tomás Vásquez Campuzano · Santiago Alberto Vélez Casallas · David Zuluaga Henao
+David Zuluaga Henao · David Amell Osorio · Kevin Giraldo Pérez · Juan José González Guzmán · Tomás Vásquez Campuzano · Santiago Alberto Vélez Casallas 
 
 Instructor: Leonel Francisco Castañeda Heredia — Universidad EAFIT, Medellín, 2024
