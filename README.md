@@ -6,6 +6,13 @@ Developed for the *Formulación de Proyectos de Ingeniería* course at **Univers
 
 > The report is written in Spanish.
 
+### ▶ Videos
+
+- **[Business model](https://youtu.be/d8uXTJK8ZDg)** — presentation of the business model behind the platform.
+- **[Pitch](https://youtu.be/J5s8gfeZvxI)** — project pitch.
+
+*Both videos are in Spanish.*
+
 ## Highlights
 
 | Item | Value |
