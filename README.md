@@ -9,9 +9,10 @@ Developed for the *Formulación de Proyectos de Ingeniería* course at **Univers
 ### ▶ Videos
 
 - **[Business model](https://youtu.be/d8uXTJK8ZDg)** — presentation of the business model behind the platform.
+- **[Final project](https://youtu.be/gFdzo9rPchc)** — presentation of the final project.
 - **[Pitch](https://youtu.be/J5s8gfeZvxI)** — project pitch.
 
-*Both videos are in Spanish.*
+*All three videos are in Spanish.*
 
 ## Highlights
 
