@@ -10,7 +10,7 @@ The demo turns antecedent rainfall into a hazard level and combines it with the 
 
 ## Run locally
 
-Open `index.html` through any static server, for example:
+Open the site through any static server, for example:
 
 ```bash
 cd website
@@ -26,10 +26,15 @@ python -m http.server 8000
 
 GitHub Pages also works: publish the `website/` folder.
 
-## Files
+## Pages
 
 | File | Content |
 |---|---|
-| `index.html` | Page structure and proposal content |
-| `styles.css` | Styles (responsive) |
+| `index.html` | Live demo: map with NASA data, alert level, rainfall chart, risk matrix, events |
+| `overview.html` | Proposal overview and key figures |
+| `problem.html` | Problem, statistics and study site |
+| `solution.html` | Platform pipeline, alternatives and objectives |
+| `plan.html` | 24-month schedule, team and partners |
+| `finance.html` | Budget, funding and financial evaluation |
+| `styles.css` | Shared Apple-inspired styles (responsive) |
 | `app.js` | Charts, map and live NASA data logic |

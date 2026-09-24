@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finance · SlopeWatch</title>
+<meta name="description" content="Budget, funding and 10-year financial evaluation of the landslide monitoring platform.">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20 9 8l4 6 3-4 6 10z" fill="#1d1d1f"/><circle cx="17.5" cy="5" r="2.5" fill="#ff9500"/></svg>SlopeWatch</a>
+  <nav>
+    <a href="overview.html" data-page="overview">Overview</a>
+    <a href="problem.html" data-page="problem">Problem</a>
+    <a href="solution.html" data-page="solution">Solution</a>
+    <a href="plan.html" data-page="plan">Plan</a>
+    <a href="finance.html" data-page="finance">Finance</a>
+    <a href="index.html" data-page="index" class="pill">Live demo</a>
+  </nav>
+</header>
+<main>
+
+<section class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Budget and financial evaluation</p>
+    <h1>Prevention pays for itself in 4.4 years.</h1>
+    <p class="lead">Evaluated over 10 years of operation at economic prices with a 12% discount rate.</p>
+  </div>
+</section>
+<section class="alt">
+  <div class="wrap">
+    <div class="grid4 stats">
+      <div class="card stat"><span class="big blue">1,766 M</span><p>COP net present value</p></div>
+      <div class="card stat"><span class="big">31.8%</span><p>internal rate of return</p></div>
+      <div class="card stat"><span class="big green">2.08</span><p>benefit / cost ratio</p></div>
+      <div class="card stat"><span class="big">4.4 yrs</span><p>discounted payback period</p></div>
+    </div>
+    <div class="card mt">
+      <h4>Annual net cash flow and cumulative present value (millions of COP)</h4>
+      <svg id="cf-chart" viewBox="0 0 560 260" role="img" aria-label="Net cash flow and cumulative present value"></svg>
+      <div class="legend"><span class="sw" style="background:#ff3b30"></span>investment (year 0) <span class="sw bar"></span>annual net cash flow <span class="sw line"></span>cumulative present value</div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="grid2">
+      <div>
+        <h2>COP 2,020,666,816.</h2>
+        <p class="muted">Human resources, administration and services and testing make up 71% of the budget.</p>
+        <div class="split"><div style="flex:75.7" class="s1">Funder 75.7%</div><div style="flex:22.1" class="s2">EAFIT 22.1%</div><div style="flex:2.2" class="s3" title="URBAM 2.2%"></div></div>
+        <p class="caption" style="margin-top:8px">Funder 75.7% · Universidad EAFIT counterpart 22.1% · URBAM 2.2%</p>
+      </div>
+      <div class="card"><div class="bars" id="budget-bars"></div></div>
+    </div>
+  </div>
+</section>
+<section class="alt">
+  <div class="wrap">
+    <div class="grid2">
+      <div>
+        <h2>Resilient in every scenario.</h2>
+        <p class="muted">Value comes from avoided road rehabilitation (COP 510 M every two years), a monitoring-service license (COP 100 M a year), avoided road closures and avoided fatalities. The NPV stays positive even with 40% lower benefits.</p>
+      </div>
+      <div class="card"><div class="bars" id="sens-bars"></div></div>
+    </div>
+    <div class="next"><a href="plan.html">‹ Plan</a><a href="index.html">Live demo ›</a></div>
+  </div>
+</section>
+
+</main>
+<footer>
+  <div class="wrap foot">
+    <div>
+      <strong>Monitoring platform assisted by computer vision and neural networks for identifying potential landslides and reducing disaster-prevention costs.</strong><br>
+      Universidad EAFIT · School of Applied Sciences and Engineering · Engineering Project Formulation, Group 5 · 2024.<br>
+      David Amell Osorio · Kevin Giraldo Pérez · Juan José González Guzmán · Tomás Vásquez Campuzano · Santiago Alberto Vélez Casallas · David Zuluaga Henao. Professor: Leonel Francisco Castañeda Heredia.
+    </div>
+    <div class="foot-links">
+      <a href="https://github.com/Senki16/landslide-monitoring-project-proposal/blob/main/01_Final_Report/Final_Report_G5_English.pdf" target="_blank" rel="noopener">Final report (English PDF)</a>
+      <a href="https://github.com/Senki16/landslide-monitoring-project-proposal" target="_blank" rel="noopener">GitHub repository</a>
+      <a href="https://youtu.be/J5s8gfeZvxI" target="_blank" rel="noopener">Pitch video (Spanish)</a>
+      <a href="https://youtu.be/gFdzo9rPchc" target="_blank" rel="noopener">Final presentation (Spanish)</a>
+    </div>
+  </div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>

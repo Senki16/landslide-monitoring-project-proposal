@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The solution · SlopeWatch</title>
+<meta name="description" content="A geographic monitoring platform with Industry 4.0 technology for landslide early warning.">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20 9 8l4 6 3-4 6 10z" fill="#1d1d1f"/><circle cx="17.5" cy="5" r="2.5" fill="#ff9500"/></svg>SlopeWatch</a>
+  <nav>
+    <a href="overview.html" data-page="overview">Overview</a>
+    <a href="problem.html" data-page="problem">Problem</a>
+    <a href="solution.html" data-page="solution">Solution</a>
+    <a href="plan.html" data-page="plan">Plan</a>
+    <a href="finance.html" data-page="finance">Finance</a>
+    <a href="index.html" data-page="index" class="pill">Live demo</a>
+  </nav>
+</header>
+<main>
+
+<section class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">The solution</p>
+    <h1>From satellite data to early warnings.</h1>
+    <p class="lead">A geographic monitoring platform with Industry 4.0 technology. It builds on NASA's LHASA approach —rainfall plus terrain susceptibility— and adds computer vision on satellite imagery.</p>
+  </div>
+</section>
+<section class="alt">
+  <div class="wrap">
+    <div class="steps">
+      <div class="step"><span class="n">Step 1</span><h4>Ingest</h4><p>NASA (GPM IMERG, LHASA, Earthdata), SIATA, IDEAM and IGAC feeds go into a geospatial and meteorological database.</p></div>
+      <div class="step"><span class="n">Step 2</span><h4>Assess</h4><p>A dynamic risk matrix based on R = H × V × E and the ISO 31000 process scores every monitored section.</p></div>
+      <div class="step"><span class="n">Step 3</span><h4>Detect</h4><p>A YOLO-based neural network looks for scarps, cracks and debris in multispectral imagery.</p></div>
+      <div class="step"><span class="n">Step 4</span><h4>Warn</h4><p>A web GIS dashboard, bulletins and configurable alerts for DAGRAN, INVIAS and the concession.</p></div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="grid2">
+      <div>
+        <h2>The strongest of four alternatives.</h2>
+        <p class="muted">Each alternative was scored on Industry 4.0 technologies, innovation, impact on the population and commercial viability. The monitoring platform scored 68 of 75 points.</p>
+      </div>
+      <div class="card"><div class="bars" id="alt-bars"></div></div>
+    </div>
+  </div>
+</section>
+<section class="alt">
+  <div class="wrap">
+    <h2 class="center">Six specific objectives.</h2>
+    <ol class="objectives mt">
+      <li><b>Database</b><span>A geospatial and meteorological database that stores and manages data in real time.</span></li>
+      <li><b>Dynamic risk matrix</b><span>Terrain stability, weather and other variables combined to prioritize prevention.</span></li>
+      <li><b>Neural network</b><span>An algorithm trained to detect critical patterns and predict landslides.</span></li>
+      <li><b>Monitoring platform</b><span>Real-time visualization, automatic reports and configurable alerts.</span></li>
+      <li><b>Pilot tests</b><span>Iterate with real data to ensure effectiveness and scalability.</span></li>
+      <li><b>Reports</b><span>Automated technical recommendations for road and disaster managers.</span></li>
+    </ol>
+    <div class="next"><a href="problem.html">‹ Problem</a><a href="plan.html">Plan ›</a></div>
+  </div>
+</section>
+
+</main>
+<footer>
+  <div class="wrap foot">
+    <div>
+      <strong>Monitoring platform assisted by computer vision and neural networks for identifying potential landslides and reducing disaster-prevention costs.</strong><br>
+      Universidad EAFIT · School of Applied Sciences and Engineering · Engineering Project Formulation, Group 5 · 2024.<br>
+      David Amell Osorio · Kevin Giraldo Pérez · Juan José González Guzmán · Tomás Vásquez Campuzano · Santiago Alberto Vélez Casallas · David Zuluaga Henao. Professor: Leonel Francisco Castañeda Heredia.
+    </div>
+    <div class="foot-links">
+      <a href="https://github.com/Senki16/landslide-monitoring-project-proposal/blob/main/01_Final_Report/Final_Report_G5_English.pdf" target="_blank" rel="noopener">Final report (English PDF)</a>
+      <a href="https://github.com/Senki16/landslide-monitoring-project-proposal" target="_blank" rel="noopener">GitHub repository</a>
+      <a href="https://youtu.be/J5s8gfeZvxI" target="_blank" rel="noopener">Pitch video (Spanish)</a>
+      <a href="https://youtu.be/gFdzo9rPchc" target="_blank" rel="noopener">Final presentation (Spanish)</a>
+    </div>
+  </div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>

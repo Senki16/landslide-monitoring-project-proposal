@@ -3,250 +3,108 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SlopeWatch · AI-Assisted Landslide Monitoring for Route 60</title>
-<meta name="description" content="Project proposal (Universidad EAFIT, 2024): an AI-assisted landslide monitoring platform for the Medellín–Bogotá highway, with a live demo powered by NASA real-time data.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<title>SlopeWatch · Live landslide watch for Route 60</title>
+<meta name="description" content="Live early-warning console for landslides on the Medellín–Bogotá highway, powered by NASA real-time data.">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
 <header class="nav">
-  <a class="brand" href="#top"><span class="dot"></span>SlopeWatch</a>
+  <a class="brand" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20 9 8l4 6 3-4 6 10z" fill="#1d1d1f"/><circle cx="17.5" cy="5" r="2.5" fill="#ff9500"/></svg>SlopeWatch</a>
   <nav>
-    <a href="#problem">Problem</a>
-    <a href="#solution">Solution</a>
-    <a href="#plan">Plan</a>
-    <a href="#finance">Finance</a>
-    <a href="#demo" class="cta-sm">Live demo</a>
+    <a href="overview.html" data-page="overview">Overview</a>
+    <a href="problem.html" data-page="problem">Problem</a>
+    <a href="solution.html" data-page="solution">Solution</a>
+    <a href="plan.html" data-page="plan">Plan</a>
+    <a href="finance.html" data-page="finance">Finance</a>
+    <a href="index.html" data-page="index" class="pill">Live demo</a>
   </nav>
 </header>
+<main>
 
-<main id="top">
-
-<!-- HERO -->
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <p class="eyebrow">Project proposal · Universidad EAFIT · 2024</p>
-      <h1>Seeing landslides <em>before</em> they close the road.</h1>
-      <p class="lead">A monitoring platform that combines NASA satellite data, a dynamic risk matrix and computer vision to warn authorities about potential landslides on the Medellín–Bogotá highway (Route 60) in Antioquia, Colombia.</p>
-      <div class="hero-cta">
-        <a class="btn primary" href="#demo">Try the live NASA demo</a>
-        <a class="btn" href="https://github.com/Senki16/landslide-monitoring-project-proposal/blob/main/01_Final_Report/Final_Report_G5_English.pdf" target="_blank" rel="noopener">Read the full report (EN)</a>
-      </div>
-      <p class="fine">Formulated with Colombia's MGA methodology · Engineering Project Formulation, Group 5</p>
+<section class="demo-hero" style="padding:0">
+  <div id="map" aria-label="Map of Route 60 near Alto de Pavas with NASA rainfall"></div>
+  <div class="overlay glass">
+    <p class="eyebrow">Live · NASA real-time data</p>
+    <h1>Route 60 landslide watch.</h1>
+    <div class="alert-card" id="alert-card">
+      <span id="alert-dot"></span>
+      <div><span class="level" id="alert-level">Loading…</span><span class="why" id="alert-why">Fetching NASA data for Alto de Pavas</span></div>
     </div>
-    <div class="hero-card">
-      <div class="kpi"><span class="k">24</span><span class="l">months to deliver</span></div>
-      <div class="kpi"><span class="k">COP 2.02 B</span><span class="l">total budget</span></div>
-      <div class="kpi"><span class="k">31.8 %</span><span class="l">internal rate of return</span></div>
-      <div class="kpi"><span class="k">2.08</span><span class="l">benefit / cost ratio</span></div>
+    <div class="mini">
+      <div><span class="k" id="m-r1">–</span><span class="l">last day mm</span></div>
+      <div><span class="k" id="m-r3">–</span><span class="l">3-day mm</span></div>
+      <div><span class="k" id="m-r15">–</span><span class="l">15-day mm</span></div>
+      <div><span class="k" id="m-sw">–</span><span class="l">soil wetness</span></div>
     </div>
   </div>
+  <div class="toggles glass">
+    <label><input type="checkbox" id="imerg-toggle" checked> Satellite rainfall <small>GPM IMERG · <span id="imerg-date">…</span></small></label>
+    <label><input type="checkbox" id="eonet-toggle" checked> Natural events <small>NASA EONET</small></label>
+  </div>
+  <a class="scroll-hint glass" href="#details">How the alert is calculated ↓</a>
 </section>
 
-<!-- PROBLEM -->
-<section id="problem" class="wrap">
-  <p class="eyebrow">The problem</p>
-  <h2>Colombia pays for landslides after they happen.</h2>
-  <p class="section-lead">Landslides in geologically critical areas threaten the safety, economy and integrity of the people who depend on the road network. Public spending is still concentrated on response rather than prevention.</p>
-  <div class="stats">
-    <div class="stat"><span class="n">11,800+</span><span>landslides recorded in Colombia over the last 100 years (UNGRD, 2020)</span></div>
-    <div class="stat"><span class="n">1,393</span><span>cases in Antioquia, the department with the most records</span></div>
-    <div class="stat"><span class="n">40 %</span><span>of deaths from natural events in Colombia are caused by landslides (Ayala &amp; Ospino, 2023)</span></div>
-    <div class="stat"><span class="n">80 %+</span><span>of Colombians live in areas of “high” mass-movement risk (SGC, 2018)</span></div>
-  </div>
-  <div class="two">
-    <div>
-      <h3>Why Route 60 at Alto de Pavas</h3>
-      <p>San Francisco is the municipality with the most landslides in Antioquia (DAGRAN, 1992–2022). The study focus is a curved section with a back slope at <strong>Alto de Pavas (5.950459, −74.861388)</strong>, km 87 towards Medellín, on the San Luis – Cocorná toll section operated by Devimed. Curves with cut slopes concentrate drainage problems and geological stress.</p>
-      <p>Heavy seasonal rainfall, limestone mining, livestock farming and unplanned roadside housing all add pressure. In October 2020 landslides in San Luis left 2 dead and 3 injured; on 22 June 2024 a slide fully closed the highway.</p>
+<section id="details" class="alt">
+  <div class="wrap wide">
+    <div class="center">
+      <h2>Rain in. Risk out.</h2>
+      <p class="lead">A working slice of the proposed platform. NASA satellite rainfall and soil wetness at Alto de Pavas feed a dynamic risk matrix that sets the alert level for the section.</p>
     </div>
-    <div class="tree">
-      <div class="tree-row effects">
-        <span>Risks to road users</span><span>Interrupted economic activity</span><span>Ecosystem degradation</span><span>Damaged infrastructure</span>
+    <div class="demo-grid mt">
+      <div class="card">
+        <div class="chart-head"><h4>Daily rainfall · last 45 days</h4><span class="caption">NASA POWER · <span id="power-meta">…</span></span></div>
+        <svg id="rain-chart" viewBox="0 0 900 240" role="img" aria-label="Daily rainfall bars with 15-day running total"></svg>
+        <div class="legend"><span class="sw bar"></span>daily precipitation (mm) <span class="sw line"></span>15-day antecedent total (mm, right axis)</div>
       </div>
-      <div class="tree-core">Landslides in critical areas that threaten the safety and integrity of road infrastructure</div>
-      <div class="tree-row causes">
-        <span>Unplanned urban development</span><span>Lack of maintenance investment</span><span>Deforestation &amp; heavy rain</span><span>Inadequate slope &amp; drainage design</span>
-      </div>
-      <p class="caption">Problem tree: effects (top), central problem, direct causes (bottom).</p>
-    </div>
-  </div>
-</section>
-
-<!-- SOLUTION -->
-<section id="solution" class="band">
-  <div class="wrap">
-    <p class="eyebrow">The solution</p>
-    <h2>A geographic monitoring platform with Industry 4.0 technology.</h2>
-    <p class="section-lead">Selected among four alternatives with 68 of 75 points. It builds on NASA's LHASA approach — rainfall plus terrain susceptibility — and adds computer vision on satellite imagery.</p>
-
-    <div class="pipeline">
-      <div class="step"><span class="num">1</span><h4>Ingest</h4><p>NASA (GPM IMERG, LHASA, Earthdata), SIATA, IDEAM and IGAC feeds into a geospatial + meteorological database.</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="num">2</span><h4>Assess</h4><p>A dynamic risk matrix based on R = H × V × E and the ISO 31000 process scores every monitored section.</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="num">3</span><h4>Detect</h4><p>A YOLO-based neural network looks for scarps, cracks and debris in multispectral imagery.</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="num">4</span><h4>Warn</h4><p>Web GIS dashboard, bulletins and configurable alerts for DAGRAN, INVIAS and the concession.</p></div>
-    </div>
-
-    <h3 class="mt">Alternatives evaluated</h3>
-    <div class="bars" id="alt-bars"></div>
-
-    <h3 class="mt">Six specific objectives</h3>
-    <ol class="objectives">
-      <li><strong>Database.</strong> Design and implement a geospatial and meteorological database that stores and manages data in real time.</li>
-      <li><strong>Dynamic risk matrix.</strong> Integrate terrain stability, weather and other variables to identify vulnerable areas and prioritize prevention.</li>
-      <li><strong>Neural network.</strong> Train an algorithm to detect critical patterns and predict landslides, improving alert accuracy.</li>
-      <li><strong>Monitoring platform.</strong> Real-time visualization, automatic reports and configurable alerts.</li>
-      <li><strong>Pilot tests.</strong> Iterate the system with real data to ensure effectiveness and scalability.</li>
-      <li><strong>Reports.</strong> Automated technical recommendations for road and disaster-prevention managers.</li>
-    </ol>
-  </div>
-</section>
-
-<!-- PLAN -->
-<section id="plan" class="wrap">
-  <p class="eyebrow">Execution plan</p>
-  <h2>24 months, six workstreams.</h2>
-  <div class="gantt" id="gantt"></div>
-  <p class="caption">Simplified from the project schedule (Table 20 of the report). Months 1–24.</p>
-
-  <div class="two mt">
-    <div>
-      <h3>Team</h3>
-      <ul class="team">
-        <li>Project manager</li><li>Database developer</li><li>Software developer</li><li>Platform developer</li>
-        <li>Senior &amp; junior computer vision specialists</li><li>Senior &amp; junior data analysts</li><li>Administrative assistant</li><li>Platform administrator</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Partners &amp; stakeholders</h3>
-      <p><strong>Executor:</strong> Universidad EAFIT with URBAM (Center for Urban and Environmental Studies). <strong>Funding:</strong> STI Fund of the General Royalties System or Fondo Adaptación. <strong>Authorities:</strong> UNGRD, DAGRAN, INVIAS, ANI. <strong>Data partners:</strong> NASA, SIATA, IDEAM, IGAC, GEO. <strong>Beneficiaries:</strong> Devimed and the communities along the highway.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FINANCE -->
-<section id="finance" class="band">
-  <div class="wrap">
-    <p class="eyebrow">Budget &amp; financial evaluation</p>
-    <h2>Prevention pays for itself in 4.4 years.</h2>
-    <div class="two">
-      <div>
-        <h3>Budget: COP 2,020,666,816</h3>
-        <div class="bars" id="budget-bars"></div>
-        <div class="split">
-          <div style="flex:75.7" class="s1">Funder 75.7 %</div>
-          <div style="flex:22.1" class="s2">EAFIT 22.1 %</div>
-          <div style="flex:2.2" class="s3" title="URBAM 2.2 %"></div>
-        </div>
-        <p class="caption">Funding: funder 75.7 % · Universidad EAFIT counterpart 22.1 % · URBAM 2.2 %.</p>
-      </div>
-      <div>
-        <h3>10-year evaluation at economic prices (12 %)</h3>
-        <div class="fin-kpis">
-          <div><span class="k">COP 1,766 M</span><span class="l">NPV</span></div>
-          <div><span class="k">31.8 %</span><span class="l">IRR</span></div>
-          <div><span class="k">2.08</span><span class="l">B/C ratio</span></div>
-          <div><span class="k">4.4 yrs</span><span class="l">discounted payback</span></div>
-        </div>
-        <svg id="cf-chart" viewBox="0 0 520 240" role="img" aria-label="Net cash flow and cumulative present value"></svg>
-        <p class="caption">Value comes from avoided road rehabilitation (COP 510 M every two years), a monitoring-service license (COP 100 M/yr), avoided road closures and avoided fatalities. NPV stays positive in every sensitivity scenario, even with 40 % lower benefits.</p>
+      <div class="card">
+        <h4>Dynamic risk matrix <span class="muted" style="font-weight:400">R = H × V × E</span></h4>
+        <table class="matrix" id="matrix">
+          <thead><tr><th></th><th>Low</th><th>Moderate</th><th>High</th><th>Very high</th></tr></thead>
+          <tbody>
+            <tr data-v="3"><th>High exposure</th><td></td><td></td><td></td><td></td></tr>
+            <tr data-v="2"><th>Medium</th><td></td><td></td><td></td><td></td></tr>
+            <tr data-v="1"><th>Low</th><td></td><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+        <p class="caption" style="text-align:center;margin-top:4px">Rainfall hazard →</p>
+        <label class="exp">Exposure and vulnerability of the section
+          <select id="exposure">
+            <option value="3" selected>High · curve with back slope, housing, 1 km buffer</option>
+            <option value="2">Medium</option>
+            <option value="1">Low</option>
+          </select>
+        </label>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- DEMO -->
-<section id="demo" class="wrap demo">
-  <p class="eyebrow">Live product demo</p>
-  <h2>Route 60 early-warning console</h2>
-  <p class="section-lead">A working slice of the proposed platform, fed by NASA open data in real time: satellite rainfall from GPM IMERG on the map, daily rainfall and soil wetness from NASA POWER at the study site, and regional natural events from NASA EONET. The dynamic risk matrix turns them into an alert level.</p>
-
-  <div class="console">
-    <div class="map-wrap">
-      <div id="map"></div>
-      <div class="map-tools">
-        <label><input type="checkbox" id="imerg-toggle" checked> NASA GPM IMERG rainfall</label>
-        <label><input type="checkbox" id="eonet-toggle" checked> NASA EONET events</label>
-        <span id="imerg-date" class="mono"></span>
-      </div>
+    <div class="card mt" style="margin-top:20px">
+      <h4>Natural events in north-western South America · last 90 days</h4>
+      <ul id="events"><li class="muted">Loading…</li></ul>
     </div>
-
-    <aside class="panel">
-      <div class="alert-card" id="alert-card">
-        <span class="label">Current alert · Alto de Pavas</span>
-        <span class="level" id="alert-level">Loading…</span>
-        <span class="why" id="alert-why">Fetching NASA data</span>
-      </div>
-
-      <div class="metrics">
-        <div><span class="k" id="m-r1">–</span><span class="l">last day (mm)</span></div>
-        <div><span class="k" id="m-r3">–</span><span class="l">3-day (mm)</span></div>
-        <div><span class="k" id="m-r15">–</span><span class="l">15-day (mm)</span></div>
-        <div><span class="k" id="m-sw">–</span><span class="l">surface soil wetness</span></div>
-      </div>
-
-      <h4>Dynamic risk matrix <span class="muted">R = H × V × E</span></h4>
-      <table class="matrix" id="matrix">
-        <thead><tr><th></th><th>Hazard low</th><th>moderate</th><th>high</th><th>very high</th></tr></thead>
-        <tbody>
-          <tr data-v="3"><th>Exposure high</th><td></td><td></td><td></td><td></td></tr>
-          <tr data-v="2"><th>medium</th><td></td><td></td><td></td><td></td></tr>
-          <tr data-v="1"><th>low</th><td></td><td></td><td></td><td></td></tr>
-        </tbody>
-      </table>
-      <label class="exp">Exposure &amp; vulnerability of the section
-        <select id="exposure">
-          <option value="3" selected>High – curve with back slope, housing, 1 km buffer</option>
-          <option value="2">Medium</option>
-          <option value="1">Low</option>
-        </select>
-      </label>
-    </aside>
+    <p class="disclaimer"><b>About this demo.</b> Alert thresholds are illustrative: 40, 70 and 100 mm in 3 days, or 150, 250 and 350 mm in 15 days, raised one level when surface soil wetness exceeds 0.8. The full platform would calibrate them with local landslide records, IDEAM and SIATA gauges and the neural-network detections described in the proposal. NASA POWER data usually lag 2–3 days; IMERG tiles show the latest available day. Sources: NASA GPM IMERG via GIBS, NASA POWER (LaRC), NASA EONET. Basemap © Esri.</p>
+    <div class="center mt"><a class="btn" href="overview.html">Explore the proposal</a></div>
   </div>
-
-  <div class="chart-card">
-    <div class="chart-head">
-      <h4>Daily rainfall at Alto de Pavas — last 45 days</h4>
-      <span class="mono muted" id="power-meta"></span>
-    </div>
-    <svg id="rain-chart" viewBox="0 0 900 220" role="img" aria-label="Daily rainfall bars with 15-day running total"></svg>
-    <div class="legend"><span class="sw bar"></span>daily precipitation (mm) <span class="sw line"></span>15-day antecedent total (mm, right axis)</div>
-  </div>
-
-  <div class="events-card">
-    <h4>NASA EONET · natural events in north-western South America (last 90 days)</h4>
-    <ul id="events"><li class="muted">Loading…</li></ul>
-  </div>
-
-  <p class="disclaimer"><strong>Demo notice.</strong> Alert thresholds are illustrative (antecedent rainfall of 40/70/100 mm in 3 days or 150/250/350 mm in 15 days, raised one level when surface soil wetness exceeds 0.8). The real platform would calibrate them with local landslide records, IDEAM/SIATA gauges and the neural-network detections described in the proposal. NASA POWER data typically lag 2–3 days; IMERG tiles show the latest available day. Data: NASA GPM IMERG via GIBS, NASA POWER (LaRC), NASA EONET.</p>
 </section>
 
 </main>
-
 <footer>
   <div class="wrap foot">
     <div>
-      <strong>Monitoring platform assisted by computer vision and neural networks for identifying potential landslides and reducing disaster-prevention costs.</strong>
-      <p>Universidad EAFIT · School of Applied Sciences and Engineering · Engineering Project Formulation, Group 5 · 2024.<br>
-      David Amell Osorio · Kevin Giraldo Pérez · Juan José González Guzmán · Tomás Vásquez Campuzano · Santiago Alberto Vélez Casallas · David Zuluaga Henao. Professor: Leonel Francisco Castañeda Heredia.</p>
+      <strong>Monitoring platform assisted by computer vision and neural networks for identifying potential landslides and reducing disaster-prevention costs.</strong><br>
+      Universidad EAFIT · School of Applied Sciences and Engineering · Engineering Project Formulation, Group 5 · 2024.<br>
+      David Amell Osorio · Kevin Giraldo Pérez · Juan José González Guzmán · Tomás Vásquez Campuzano · Santiago Alberto Vélez Casallas · David Zuluaga Henao. Professor: Leonel Francisco Castañeda Heredia.
     </div>
     <div class="foot-links">
-      <a href="https://github.com/Senki16/landslide-monitoring-project-proposal" target="_blank" rel="noopener">GitHub repository</a>
       <a href="https://github.com/Senki16/landslide-monitoring-project-proposal/blob/main/01_Final_Report/Final_Report_G5_English.pdf" target="_blank" rel="noopener">Final report (English PDF)</a>
-      <a href="https://youtu.be/J5s8gfeZvxI" target="_blank" rel="noopener">Pitch video (ES)</a>
-      <a href="https://youtu.be/gFdzo9rPchc" target="_blank" rel="noopener">Final presentation (ES)</a>
+      <a href="https://github.com/Senki16/landslide-monitoring-project-proposal" target="_blank" rel="noopener">GitHub repository</a>
+      <a href="https://youtu.be/J5s8gfeZvxI" target="_blank" rel="noopener">Pitch video (Spanish)</a>
+      <a href="https://youtu.be/gFdzo9rPchc" target="_blank" rel="noopener">Final presentation (Spanish)</a>
     </div>
   </div>
 </footer>
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script src="app.js"></script>
 </body>
