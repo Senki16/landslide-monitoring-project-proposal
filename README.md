@@ -4,7 +4,11 @@ Engineering project proposal (*anteproyecto*) for a monitoring platform that use
 
 Developed for the *Formulación de Proyectos de Ingeniería* course at **Universidad EAFIT** (Group 5, 2024), following the Colombian **MGA** (Metodología General Ajustada) project-formulation methodology.
 
-> The report is written in Spanish.
+> The original report is in Spanish; an **English translation** is available: [`Final_Report_G5_English.pdf`](01_Final_Report/Final_Report_G5_English.pdf) · [`.docx`](01_Final_Report/Final_Report_G5_English.docx).
+
+### 🌐 Website and live demo
+
+The [`website/`](website/) folder contains an English presentation of the proposal and a **live demo of the early-warning console** fed by NASA open data in real time (GPM IMERG rainfall via GIBS, NASA POWER rainfall and soil wetness at Alto de Pavas, and NASA EONET events). It is a static site with no build step — see [`website/README.md`](website/README.md) to deploy it on Vercel or GitHub Pages.
 
 ### ▶ Videos
 
@@ -36,6 +40,8 @@ The proposal combines remote sensing, satellite rainfall data and deep-learning 
 01_Final_Report/
 ├── Final_Report_G5_Corrected.pdf     ← final corrected report
 ├── Final_Report_G5_Corrected.docx    ← editable version
+├── Final_Report_G5_English.pdf       ← English translation
+├── Final_Report_G5_English.docx      ← English translation (editable)
 ├── Grading_Rubric_G5.pdf             ← instructor rubric used for the corrections
 02_Progress_Deliverables/
 ├── A01_Technical_System/             ← technical system and title selection
