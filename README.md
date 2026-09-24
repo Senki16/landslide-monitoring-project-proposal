@@ -8,7 +8,25 @@ Developed for the *Formulación de Proyectos de Ingeniería* course at **Univers
 
 ### 🌐 Website and live demo
 
-The [`website/`](website/) folder contains an English presentation of the proposal and a **live demo of the early-warning console** fed by NASA open data in real time (GPM IMERG rainfall via GIBS, NASA POWER rainfall and soil wetness at Alto de Pavas, and NASA EONET events). It is a static site with no build step — see [`website/README.md`](website/README.md) to deploy it on Vercel or GitHub Pages.
+**▶ [slopewatch-landslide.vercel.app](https://slopewatch-landslide.vercel.app)** — English presentation of the proposal with a working demo of the early-warning platform, fed by **NASA open data in real time**.
+
+| Page | What it shows |
+|---|---|
+| [**Home**](https://slopewatch-landslide.vercel.app) | Current alert level at Alto de Pavas over a satellite map, 45-day rainfall chart, key indicators, dynamic risk matrix and recent NASA natural events |
+| [**Demo**](https://slopewatch-landslide.vercel.app/demo.html) | Full-screen interactive map: search any place or click the map to get its rainfall, soil moisture and alert level; toggle NASA layers; replay the last 7 days of satellite rainfall |
+| [Overview](https://slopewatch-landslide.vercel.app/overview.html) · [Problem](https://slopewatch-landslide.vercel.app/problem.html) · [Solution](https://slopewatch-landslide.vercel.app/solution.html) · [Plan](https://slopewatch-landslide.vercel.app/plan.html) · [Finance](https://slopewatch-landslide.vercel.app/finance.html) | The proposal: study site and problem, platform and alternatives, 24-month plan, budget and financial evaluation |
+
+**Data sources (no API keys):**
+
+- **NASA GPM IMERG** satellite rainfall, via NASA GIBS map tiles.
+- **NASA POWER** daily precipitation and surface soil wetness for the selected point.
+- **NASA MODIS Terra** true-color imagery (GIBS and Worldview snapshots).
+- **NASA EONET** landslide, flood and severe-storm events in north-western South America.
+- Esri basemaps and OpenStreetMap Nominatim place search.
+
+**How the alert works:** antecedent rainfall (3-day and 15-day totals) sets the rainfall hazard, which is raised one level when the soil is saturated. The dynamic risk matrix (R = H × V × E) then combines it with the section's exposure to give the alert level: *Normal*, *Watch*, *Warning* or *Alert*. The thresholds are illustrative; the full platform would calibrate them with local landslide records, IDEAM and SIATA gauges and the neural-network detections described in the proposal.
+
+The site is static (HTML, CSS and JavaScript with Leaflet, no build step) and lives in [`website/`](website/). It is deployed on Vercel with *Root Directory* set to `website`, so every push to `main` updates it. See [`website/README.md`](website/README.md) for details.
 
 ### ▶ Videos
 
@@ -56,6 +74,7 @@ The proposal combines remote sensing, satellite rainfall data and deep-learning 
 ├── A10_Impacts_Dissemination/
 ├── A11_Schedule_Budget/
 └── A12_Financial_Evaluation/
+website/                              ← proposal website and live NASA demo (Vercel)
 ```
 
 ## Report contents
