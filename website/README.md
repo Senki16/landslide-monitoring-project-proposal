@@ -30,11 +30,13 @@ GitHub Pages also works: publish the `website/` folder.
 
 | File | Content |
 |---|---|
-| `index.html` | Live demo: map with NASA data, alert level, rainfall chart, risk matrix, events |
+| `index.html` | Home: hero map with alert level, rainfall chart, KPIs, risk matrix and NASA events |
+| `demo.html` | Full-screen interactive demo: search or click any point, NASA layer toggles, 7-day rainfall timeline |
 | `overview.html` | Proposal overview and key figures |
 | `problem.html` | Problem, statistics and study site |
 | `solution.html` | Platform pipeline, alternatives and objectives |
 | `plan.html` | 24-month schedule, team and partners |
 | `finance.html` | Budget, funding and financial evaluation |
 | `styles.css` | Shared styles (responsive) |
-| `app.js` | Charts, map and live NASA data logic |
+| `app.js` | Charts and home dashboard logic |
+| `demo.js` | Interactive demo map logic (NASA POWER, IMERG, MODIS, EONET; OpenStreetMap Nominatim search) |

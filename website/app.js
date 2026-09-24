@@ -89,7 +89,7 @@
   }
 
   /* ---------- live demo (home page only) ---------- */
-  if (!$('#map')) return;
+  if (!$('#dashboard')) return;
   const SITE = { name: 'Alto de Pavas', lat: 5.950459, lon: -74.861388 };
   const LEVELS = [
     { name: 'Normal', color: '#22c55e' },
