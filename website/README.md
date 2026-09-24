@@ -36,5 +36,5 @@ GitHub Pages also works: publish the `website/` folder.
 | `solution.html` | Platform pipeline, alternatives and objectives |
 | `plan.html` | 24-month schedule, team and partners |
 | `finance.html` | Budget, funding and financial evaluation |
-| `styles.css` | Shared Apple-inspired styles (responsive) |
+| `styles.css` | Shared styles (responsive) |
 | `app.js` | Charts, map and live NASA data logic |

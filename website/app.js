@@ -10,7 +10,7 @@
     if (parent) parent.appendChild(e);
     return e;
   };
-  const C = { blue: '#0071e3', orange: '#ff9500', red: '#ff3b30', green: '#34c759', yellow: '#ffcc00', grid: '#e8e8ed', axis: '#d2d2d7', ink: '#1d1d1f' };
+  const C = { blue: '#0a66ff', orange: '#f59e0b', red: '#ef4444', green: '#22c55e', yellow: '#eab308', grid: '#eef1f5', axis: '#d8dee8', ink: '#0f172a' };
 
   /* ---------- active nav link ---------- */
   const page = (location.pathname.split('/').pop() || 'index.html').replace('.html', '') || 'index';
@@ -88,39 +88,45 @@
     el('text', { x: W - R, y: y(cum[10]) - 10, 'text-anchor': 'end', class: 'strong' }, cf).textContent = 'NPV COP 1,766 M';
   }
 
-  /* ---------- live demo (index page only) ---------- */
+  /* ---------- live demo (home page only) ---------- */
   if (!$('#map')) return;
   const SITE = { name: 'Alto de Pavas', lat: 5.950459, lon: -74.861388 };
   const LEVELS = [
-    { name: 'Normal', cls: 'lv0', color: C.green },
-    { name: 'Watch', cls: 'lv1', color: C.yellow },
-    { name: 'Warning', cls: 'lv2', color: C.orange },
-    { name: 'Alert', cls: 'lv3', color: C.red },
+    { name: 'Normal', color: '#22c55e' },
+    { name: 'Watch', color: '#eab308' },
+    { name: 'Warning', color: '#f59e0b' },
+    { name: 'Alert', color: '#ef4444' },
   ];
-  const HAZ = ['low', 'moderate', 'high', 'very high'];
+  const HAZ = ['Low', 'Moderate', 'High', 'Very high'];
+  const EXP = { 3: 'High', 2: 'Medium', 1: 'Low' };
   const state = { hazard: null, reason: '' };
+  const setText = (id, t) => { const n = $(id); if (n) n.textContent = t; };
 
-  if (!window.L) { $('#alert-level').textContent = 'Map unavailable'; return; }
+  /* risk matrix grid (rows: exposure high→low, cols: hazard low→very high) */
+  const MCOL = ['#7cc36a', '#a8d06b', '#d6df6a', '#f7d35e', '#f9a94d', '#f47a45', '#e8473e'];
+  const mx = $('#matrix');
+  [3, 2, 1].forEach((v) => {
+    mx.insertAdjacentHTML('beforeend', `<div class="rl">${EXP[v]}</div>`);
+    for (let h = 0; h < 4; h++) mx.insertAdjacentHTML('beforeend', `<div class="c" data-h="${h}" data-v="${v}" style="background:${MCOL[h + v]}" title="Hazard ${HAZ[h]} · exposure ${EXP[v]}"></div>`);
+  });
+  mx.insertAdjacentHTML('beforeend', '<div></div>' + HAZ.map((h) => `<div class="cl">${h}</div>`).join(''));
+  mx.insertAdjacentHTML('beforeend', '<div class="axis">Rainfall hazard →</div>');
 
-  const map = L.map('map', { zoomControl: false, scrollWheelZoom: false }).setView(innerWidth < 900 ? [5.975, -74.93] : [5.99, -74.98], innerWidth < 900 ? 10 : 11);
+  if (!window.L) { setText('#alert-level', 'Map unavailable'); return; }
+  const small = innerWidth < 900;
+  const map = L.map('map', { zoomControl: false, scrollWheelZoom: false, attributionControl: true });
+  map.setView([SITE.lat + 0.02, SITE.lon], small ? 10 : 11);
+  if (!small) map.panBy([-innerWidth * 0.12, 0], { animate: false });
   L.control.zoom({ position: 'bottomright' }).addTo(map);
-  const light = L.layerGroup([
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', { attribution: 'Basemap &copy; Esri', maxZoom: 16 }),
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', { maxZoom: 16, pane: 'shadowPane' }),
-  ]).addTo(map);
-  const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Imagery &copy; Esri', maxZoom: 18 });
-  L.control.layers({ Map: light, Satellite: sat }, {}, { position: 'topright' }).addTo(map);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Imagery © Esri', maxZoom: 18 }).addTo(map);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, pane: 'shadowPane' }).addTo(map);
 
-  L.circle([SITE.lat, SITE.lon], { radius: 1000, color: C.blue, weight: 2, fillColor: C.blue, fillOpacity: 0.08 }).addTo(map)
+  L.circle([SITE.lat, SITE.lon], { radius: 1000, color: '#fff', weight: 2, dashArray: '4 4', fillColor: '#0a66ff', fillOpacity: 0.15 }).addTo(map)
     .bindPopup('<b>Alto de Pavas</b><br>Route 60, km 87 · curved section with back slope<br>1 km monitoring buffer');
-  L.polyline([[5.951316, -74.865089], [5.950459, -74.861388]], { color: C.blue, weight: 6 }).addTo(map);
-  L.circleMarker([SITE.lat, SITE.lon], { radius: 7, color: '#fff', weight: 3, fillColor: C.blue, fillOpacity: 1 }).addTo(map)
+  L.circleMarker([SITE.lat, SITE.lon], { radius: 8, color: '#fff', weight: 3, fillColor: '#0a66ff', fillOpacity: 1 }).addTo(map)
     .bindTooltip('Alto de Pavas', { permanent: true, direction: 'right', className: 'site-label', offset: [10, 0] });
-  [['San Francisco', 5.9636, -75.1016], ['San Luis', 6.0428, -74.9937], ['Cocorná', 6.0586, -75.1856]].forEach(([n, la, lo]) =>
-    L.circleMarker([la, lo], { radius: 4, color: '#fff', weight: 2, fillColor: '#6e6e73', fillOpacity: 1 }).addTo(map)
-      .bindTooltip(n, { direction: 'top', className: 'site-label' }));
 
-  /* NASA GPM IMERG via GIBS: most recent day with tiles */
+  /* NASA GPM IMERG via GIBS */
   const imergUrl = (d) => `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/IMERG_Precipitation_Rate/default/${d}/GoogleMapsCompatible_Level6/{z}/{y}/{x}.png`;
   const isoDay = (dt) => dt.toISOString().slice(0, 10);
   const probe = (d) => new Promise((res) => {
@@ -133,112 +139,133 @@
     for (let back = 0; back < 6; back++) {
       const d = isoDay(new Date(Date.now() - back * 864e5));
       if (await probe(d)) {
-        imergLayer = L.tileLayer(imergUrl(d), { opacity: 0.6, maxNativeZoom: 6, maxZoom: 18, attribution: 'NASA GPM IMERG · GIBS' });
+        imergLayer = L.tileLayer(imergUrl(d), { opacity: 0.7, maxNativeZoom: 6, maxZoom: 18, attribution: 'NASA GPM IMERG · GIBS' });
         if ($('#imerg-toggle').checked) imergLayer.addTo(map);
-        $('#imerg-date').textContent = d;
+        setText('#imerg-date', d);
         return;
       }
     }
-    $('#imerg-date').textContent = 'unavailable';
+    setText('#imerg-date', 'unavailable');
   })();
-  $('#imerg-toggle').addEventListener('change', (e) => {
-    if (!imergLayer) return;
-    e.target.checked ? imergLayer.addTo(map) : map.removeLayer(imergLayer);
-  });
+  $('#imerg-toggle').addEventListener('change', (e) => { if (imergLayer) (e.target.checked ? imergLayer.addTo(map) : map.removeLayer(imergLayer)); });
 
-  /* NASA EONET: natural events in the region */
+  /* NASA EONET events with NASA Worldview thumbnails */
   const eonetLayer = L.layerGroup().addTo(map);
   $('#eonet-toggle').addEventListener('change', (e) => (e.target.checked ? eonetLayer.addTo(map) : map.removeLayer(eonetLayer)));
+  const DESC = { floods: 'Flooding reported in the region; heavy rain also raises slope-failure risk.', severeStorms: 'Severe storm activity; intense rainfall can trigger landslides.', landslides: 'Landslide event reported by NASA EONET sources.' };
+  const thumb = (la, lo, date) => {
+    const t = new Date(date); t.setUTCDate(t.getUTCDate() - 1);
+    const b = [la - 2, lo - 3.5, la + 2, lo + 3.5].map((v) => v.toFixed(2)).join(',');
+    return `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&LAYERS=MODIS_Terra_CorrectedReflectance_TrueColor,Coastlines_15m&CRS=EPSG:4326&TIME=${isoDay(t)}&BBOX=${b}&FORMAT=image/jpeg&WIDTH=336&HEIGHT=188`;
+  };
   fetch('https://eonet.gsfc.nasa.gov/api/v3/events?category=landslides,floods,severeStorms&status=all&days=90&bbox=-82,13,-66,-5')
     .then((r) => r.json())
     .then((j) => {
       const list = $('#events'); list.innerHTML = '';
-      const evs = (j.events || []).slice(0, 12);
+      const evs = (j.events || []).slice(0, 3);
       if (!evs.length) { list.innerHTML = '<li class="muted">No landslide, flood or storm events reported in the region in the last 90 days.</li>'; return; }
       evs.forEach((ev) => {
         const geo = ev.geometry[ev.geometry.length - 1];
         const [lo, la] = geo.type === 'Point' ? geo.coordinates : geo.coordinates[0][0];
-        const date = geo.date.slice(0, 10);
-        const cat = ev.categories.map((c) => c.title).join(', ');
-        L.circleMarker([la, lo], { radius: 7, color: '#fff', weight: 2, fillColor: C.orange, fillOpacity: 0.9 }).addTo(eonetLayer)
-          .bindPopup(`<b>${ev.title}</b><br>${cat} · ${date}`);
-        const li = document.createElement('li');
-        li.innerHTML = `<span>${ev.title}</span><small>${cat} · ${date}</small>`;
-        list.appendChild(li);
+        const date = new Date(geo.date);
+        const cat = ev.categories[0];
+        const title = ev.title.replace(/\s\d{5,}$/, '');
+        L.circleMarker([la, lo], { radius: 8, color: '#fff', weight: 2, fillColor: '#f59e0b', fillOpacity: 0.95 }).addTo(eonetLayer).bindPopup(`<b>${title}</b><br>${cat.title} · ${isoDay(date)}`);
+        const src = ev.sources && ev.sources[0] ? ev.sources[0].url : 'https://eonet.gsfc.nasa.gov/';
+        list.insertAdjacentHTML('beforeend', `<li>
+          <img class="thumb" loading="lazy" alt="NASA Terra MODIS true-color image near ${title}" src="${thumb(la, lo, geo.date)}">
+          <div><span class="badge ${cat.id}">${cat.title}</span><h5>${title}</h5><p>${DESC[cat.id] || 'Natural event reported by NASA EONET.'} <a href="${src}" target="_blank" rel="noopener">Source</a></p></div>
+          <span class="date">${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span></li>`);
       });
     })
     .catch(() => { $('#events').innerHTML = '<li class="muted">NASA EONET is not reachable right now.</li>'; });
 
-  /* NASA POWER: daily rainfall + surface soil wetness at the study site */
+  /* NASA POWER: rainfall + soil wetness at the study site */
   const ymd = (dt) => dt.toISOString().slice(0, 10).replace(/-/g, '');
   const powerUrl = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,GWETTOP&community=AG&longitude=${SITE.lon}&latitude=${SITE.lat}&start=${ymd(new Date(Date.now() - 60 * 864e5))}&end=${ymd(new Date())}&format=JSON`;
+  const delta = (id, now, prev, unit) => {
+    const n = $(id); if (!n) return;
+    if (prev == null) { n.textContent = unit; return; }
+    const dlt = now - prev;
+    n.className = 'd ' + (dlt > 0 ? 'up' : 'down');
+    n.textContent = `${dlt > 0 ? '↑ +' : '↓ '}${fmt(dlt, 1)} mm ${unit}`;
+  };
   fetch(powerUrl)
     .then((r) => r.json())
     .then((j) => {
       const P = j.properties.parameter.PRECTOTCORR, S = j.properties.parameter.GWETTOP;
       const days = Object.keys(P).filter((k) => P[k] > -900).sort();
-      if (days.length < 16) throw new Error('not enough data');
+      if (days.length < 20) throw new Error('not enough data');
       const rain = days.map((k) => P[k]);
-      const sw = days.map((k) => (S[k] > -900 ? S[k] : null));
+      const swAll = days.map((k) => (S[k] > -900 ? S[k] : null));
       const n = rain.length, sum = (a) => a.reduce((x, y) => x + y, 0);
-      const r1 = rain[n - 1], r3 = sum(rain.slice(-3)), r15 = sum(rain.slice(-15));
-      const swLast = [...sw].reverse().find((v) => v != null);
-      let h = 0; const why = [];
+      const r1 = rain[n - 1], r1p = rain[n - 2];
+      const r3 = sum(rain.slice(-3)), r3p = sum(rain.slice(-6, -3));
+      const r15 = sum(rain.slice(-15));
+      const sw = [...swAll].reverse().find((v) => v != null);
+      let h = 0;
       if (r3 >= 100 || r15 >= 350) h = 3; else if (r3 >= 70 || r15 >= 250) h = 2; else if (r3 >= 40 || r15 >= 150) h = 1;
-      why.push(`${fmt(r3, 1)} mm in 3 days · ${fmt(r15, 0)} mm in 15 days`);
-      if (swLast != null && swLast > 0.8 && h < 3) { h += 1; why.push(`saturated soil (${swLast.toFixed(2)})`); }
+      const why = [`${fmt(r3, 1)} mm in 3 days`, `${fmt(r15, 0)} mm in 15 days`];
+      if (sw != null && sw > 0.8 && h < 3) { h += 1; why.push('saturated soil'); }
       state.hazard = h; state.reason = why.join(' · ');
-      const last = days[n - 1];
-      $('#m-r1').textContent = fmt(r1, 1); $('#m-r3').textContent = fmt(r3, 1); $('#m-r15').textContent = fmt(r15, 0);
-      $('#m-sw').textContent = swLast != null ? swLast.toFixed(2) : '–';
-      $('#power-meta').textContent = `Latest valid day ${last.slice(0, 4)}-${last.slice(4, 6)}-${last.slice(6)}`;
+      const last = days[n - 1], lastTxt = `${last.slice(0, 4)}-${last.slice(4, 6)}-${last.slice(6)}`;
+      setText('#a-r1', fmt(r1, 1)); setText('#a-r15', fmt(r15, 0));
+      setText('#a-r1d', `as of ${new Date(lastTxt + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`); setText('#a-r15d', `hazard: ${HAZ[h].toLowerCase()}`);
+      setText('#k-r1', fmt(r1, 1)); setText('#k-r3', fmt(r3, 1));
+      delta('#k-r1d', r1, r1p, 'vs. previous day'); delta('#k-r3d', r3, r3p, 'vs. previous 3 days');
+      if (sw != null) {
+        setText('#k-sw', fmt(sw * 100, 0));
+        const lvl = sw > 0.8 ? ['Saturated', '#ef4444'] : sw > 0.65 ? ['High', '#f59e0b'] : sw > 0.4 ? ['Moderate', '#eab308'] : ['Low', '#22c55e'];
+        $('#k-swd').innerHTML = `<span class="dot" style="background:${lvl[1]}"></span>${lvl[0]}`;
+      }
+      $('#k-status').innerHTML = '<span class="dot" style="background:#22c55e"></span>Online · NASA data received';
+      setText('#power-meta', `latest valid day ${lastTxt}`);
       render();
       drawRain(days.slice(-45), rain.slice(-45), rain);
     })
     .catch(() => {
-      $('#alert-level').textContent = 'Unavailable';
-      $('#alert-why').textContent = 'NASA POWER could not be reached. Try again in a moment.';
+      setText('#alert-level', 'Unavailable');
+      setText('#alert-why', 'NASA POWER could not be reached. Try again in a moment.');
+      $('#k-status').innerHTML = '<span class="dot" style="background:#ef4444"></span>Offline';
     });
 
   function render() {
     const e = +$('#exposure').value;
-    document.querySelectorAll('#matrix tbody tr').forEach((tr) => {
-      const v = +tr.dataset.v;
-      tr.querySelectorAll('td').forEach((td, hz) => {
-        const lv = Math.max(0, hz - (3 - v));
-        td.style.background = LEVELS[lv].color;
-        td.classList.toggle('on', state.hazard === hz && v === e);
-      });
-    });
+    setText('#r-exp', EXP[e]);
+    mx.querySelectorAll('.c').forEach((c) => c.classList.toggle('on', state.hazard === +c.dataset.h && e === +c.dataset.v));
     if (state.hazard == null) return;
     const lv = Math.max(0, state.hazard - (3 - e));
-    $('#alert-dot').style.background = LEVELS[lv].color;
-    $('#alert-card').dataset.level = lv;
-    $('#alert-level').textContent = LEVELS[lv].name;
-    $('#alert-why').textContent = `Hazard ${HAZ[state.hazard]} · ${state.reason}`;
+    $('#alert-pill').dataset.level = lv;
+    setText('#alert-level', LEVELS[lv].name);
+    setText('#r-level', LEVELS[lv].name);
+    $('#r-level').style.color = LEVELS[lv].color;
+    setText('#r-haz', HAZ[state.hazard]);
+    setText('#alert-why', `Hazard ${HAZ[state.hazard].toLowerCase()} · ${state.reason} · exposure ${EXP[e].toLowerCase()}`);
   }
   $('#exposure').addEventListener('change', render);
   render();
 
   function drawRain(days, rain, all) {
     const svg = $('#rain-chart'); svg.innerHTML = '';
-    const W = 900, H = 240, L = 40, R = 48, T = 14, B = 30;
+    const W = 900, H = 250, L = 36, R = 44, T = 12, B = 30;
     const off = all.length - rain.length;
     const run15 = rain.map((_, i) => all.slice(Math.max(0, off + i - 14), off + i + 1).reduce((a, b) => a + b, 0));
     const maxR = Math.max(20, Math.ceil(Math.max(...rain) / 20) * 20);
     const maxC = Math.max(100, Math.ceil(Math.max(...run15) / 100) * 100);
     const bw = (W - L - R) / rain.length;
     const yR = (v) => H - B - (v / maxR) * (H - T - B), yC = (v) => H - B - (v / maxC) * (H - T - B);
+    const defs = el('defs', {}, svg); const lg = el('linearGradient', { id: 'rg', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+    el('stop', { offset: 0, 'stop-color': '#2563eb' }, lg); el('stop', { offset: 1, 'stop-color': '#93c5fd' }, lg);
     for (let t = 0; t <= 4; t++) {
-      el('line', { x1: L, x2: W - R, y1: yR((maxR / 4) * t), y2: yR((maxR / 4) * t), stroke: t ? C.grid : C.axis }, svg);
+      el('line', { x1: L, x2: W - R, y1: yR((maxR / 4) * t), y2: yR((maxR / 4) * t), stroke: t ? '#eef1f5' : '#d8dee8' }, svg);
       el('text', { x: L - 8, y: yR((maxR / 4) * t) + 4, 'text-anchor': 'end' }, svg).textContent = fmt((maxR / 4) * t);
       el('text', { x: W - R + 8, y: yR((maxR / 4) * t) + 4 }, svg).textContent = fmt((maxC / 4) * t);
     }
     rain.forEach((v, i) => {
-      const r = el('rect', { x: L + i * bw + 2, width: Math.max(1, bw - 4), y: yR(v), height: H - B - yR(v), fill: C.blue, rx: 3 }, svg);
+      const r = el('rect', { x: L + i * bw + 3, width: Math.max(1, bw - 6), y: yR(v), height: Math.max(0, H - B - yR(v)), fill: 'url(#rg)', rx: 3 }, svg);
       const d = days[i]; el('title', {}, r).textContent = `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}: ${v.toFixed(1)} mm`;
-      if (i % 7 === 0) el('text', { x: L + i * bw + bw / 2, y: H - 8, 'text-anchor': 'middle' }, svg).textContent = `${d.slice(4, 6)}/${d.slice(6)}`;
+      if (i % 7 === 0) el('text', { x: L + i * bw + bw / 2, y: H - 8, 'text-anchor': 'middle' }, svg).textContent = new Date(`${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     });
-    el('polyline', { points: run15.map((v, i) => `${L + i * bw + bw / 2},${yC(v)}`).join(' '), fill: 'none', stroke: C.orange, 'stroke-width': 2.5, 'stroke-linejoin': 'round' }, svg);
+    el('polyline', { points: run15.map((v, i) => `${L + i * bw + bw / 2},${yC(v)}`).join(' '), fill: 'none', stroke: '#f59e0b', 'stroke-width': 2.5, 'stroke-linejoin': 'round' }, svg);
   }
 })();
