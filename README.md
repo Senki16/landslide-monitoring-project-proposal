@@ -10,11 +10,17 @@ Developed for the *Formulación de Proyectos de Ingeniería* course at **Univers
 
 **▶ [slopewatch-landslide.vercel.app](https://slopewatch-landslide.vercel.app)** — English presentation of the proposal with a working demo of the early-warning platform, fed by **NASA open data in real time**.
 
+[![SlopeWatch home: current alert level at Alto de Pavas over NASA satellite rainfall, with the 45-day rainfall chart and key indicators](docs/images/website_home.jpg)](https://slopewatch-landslide.vercel.app)
+
+
 | Page | What it shows |
 |---|---|
 | [**Home**](https://slopewatch-landslide.vercel.app) | Current alert level at Alto de Pavas over a satellite map, 45-day rainfall chart, key indicators, dynamic risk matrix and recent NASA natural events |
 | [**Demo**](https://slopewatch-landslide.vercel.app/demo.html) | Full-screen interactive map: search any place or click the map to get its rainfall, soil moisture and alert level; toggle NASA layers; replay the last 7 days of satellite rainfall |
 | [Overview](https://slopewatch-landslide.vercel.app/overview.html) · [Problem](https://slopewatch-landslide.vercel.app/problem.html) · [Solution](https://slopewatch-landslide.vercel.app/solution.html) · [Plan](https://slopewatch-landslide.vercel.app/plan.html) · [Finance](https://slopewatch-landslide.vercel.app/finance.html) | The proposal: study site and problem, platform and alternatives, 24-month plan, budget and financial evaluation |
+
+<p align="center"><a href="https://slopewatch-landslide.vercel.app/demo.html"><img src="docs/images/website_demo.jpg" width="100%" alt="Interactive demo: full-screen map with NASA IMERG rainfall over Antioquia, layer toggles, 7-day timeline and indicators for the selected point"></a></p>
+<p align="center"><em>Interactive demo — search or click any point to get its NASA rainfall, soil moisture and alert level.</em></p>
 
 **Data sources (no API keys):**
 
@@ -52,6 +58,23 @@ The site is static (HTML, CSS and JavaScript with Leaflet, no build step) and li
 
 The proposal combines remote sensing, satellite rainfall data and deep-learning models (YOLO-based object detection) with a web GIS platform so that highway concessions and authorities can intervene before a slope fails.
 
+### From the final report
+
+<p align="center">
+  <a href="01_Final_Report/Final_Report_G5_English.pdf"><img src="docs/images/report_cover.png" width="30%" alt="Cover of the final report (English translation)"></a>
+</p>
+
+**Problem tree.** Landslides in critical areas are driven by unplanned urban development, lack of maintenance investment, deforestation with heavy rainfall, and inadequate slope and drainage design.
+
+![Problem tree: indirect effects, direct effects, central problem, direct and indirect causes](docs/images/problem_tree.png)
+
+**Budget and financial evaluation.** Human resources, administration and services and testing make up 71 % of the COP 2.02 billion budget. At economic prices the project recovers its investment in 4.4 years, with an NPV of COP 1,766 million.
+
+| Budget distribution by item | Annual net cash flow and cumulative present value |
+|---|---|
+| ![Budget distribution by item](docs/images/budget_distribution.png) | ![Net cash flow and cumulative present value](docs/images/net_cash_flow.png) |
+
+
 ## Repository structure
 
 ```
@@ -75,6 +98,7 @@ The proposal combines remote sensing, satellite rainfall data and deep-learning 
 ├── A11_Schedule_Budget/
 └── A12_Financial_Evaluation/
 website/                              ← proposal website and live NASA demo (Vercel)
+docs/images/                          ← images used in this README
 ```
 
 ## Report contents
